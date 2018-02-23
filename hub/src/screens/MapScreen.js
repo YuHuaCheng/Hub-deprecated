@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import { MapView } from 'expo';
 
 import HubMarker from '../components/HubMarker';
+import Deck from '../components/Deck';
 
+const SCREEN_WIDTH = Dimensions.get('window').width;
 const INITIAL_REGION = {
     longitude: -73.953,
     latitude: 40.77,
     longitudeDelta: 0.04,
     latitudeDelta: 0.09
 };
+
+const SLIDE_DATA = [
+    { key: '1', text: 'Welcome to JobApp.', color: '#03A9F4'},
+    { key: '2', text: 'Use this to get a job.', color: '#009688'},
+    { key: '3', text: 'Set your location, then swipe away.', color: '#03A9F4'}
+];
+
 
 class MapScreen extends Component {
     state = {
@@ -59,6 +68,10 @@ class MapScreen extends Component {
                         )}
                     )}
                 </MapView>
+                <View style={{ height: 200, width: SCREEN_WIDTH, backgroundColor: 'white' }}>
+                    <Deck data={SLIDE_DATA}/>
+
+                </View>
             </View>
         )
     }

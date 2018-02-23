@@ -5,17 +5,24 @@ import {
     View,
     Text,
 } from 'react-native';
-
-const defaultProps = {
-    fontSize: 15,
-};
+import { Icon } from 'react-native-elements'
 
 class HubMarker extends React.Component {
+    static defaultProps = {
+        fontSize: 15,
+    };
+
     render() {
         const { fontSize, amount } = this.props;
         return (
             <View style={styles.container}>
                 <View style={styles.bubble}>
+                    <Icon
+                        name="user"
+                        type="font-awesome"
+                        size={fontSize - 3}
+                        color={'#FFFFFF'}
+                    />
                     <Text style={[styles.amount, { fontSize }]}>{amount}</Text>
                 </View>
                 <View style={styles.arrowBorder} />
@@ -25,7 +32,6 @@ class HubMarker extends React.Component {
     }
 }
 
-HubMarker.defaultProps = defaultProps;
 
 const styles = StyleSheet.create({
     container: {
@@ -43,8 +49,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     amount: {
-        color: '#FFFFFF',
-        fontSize: 13,
+        paddingLeft: 2,
+        color: '#FFFFFF'
     },
     arrow: {
         backgroundColor: 'transparent',
