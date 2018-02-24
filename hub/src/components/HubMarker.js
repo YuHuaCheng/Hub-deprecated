@@ -7,6 +7,8 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements'
 
+import { THEME_COLOR } from '../';
+
 class HubMarker extends React.Component {
     static defaultProps = {
         fontSize: 15,
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
         flex: 0,
         flexDirection: 'row',
         alignSelf: 'flex-start',
-        backgroundColor: '#FF5A5F',
+        backgroundColor: THEME_COLOR,
         padding: 2.5,
         paddingLeft: 3,
         paddingRight: 3,
@@ -56,7 +58,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         borderWidth: 4,
         borderColor: 'transparent',
-        borderTopColor: '#FF5A5F',
+        borderTopColor: THEME_COLOR,
         alignSelf: 'center',
         marginTop: -9,
     },

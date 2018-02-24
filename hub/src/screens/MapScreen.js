@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { View, Dimensions } from 'react-native';
 import { MapView } from 'expo';
+import { Icon } from 'react-native-elements';
+import { connect } from 'react-redux';
 
 import HubMarker from '../components/HubMarker';
 import Deck from '../components/Deck';
+import {
+    NAVIGATION_ICON_SIZE
+} from '../'
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const INITIAL_REGION = {
@@ -13,26 +18,25 @@ const INITIAL_REGION = {
     latitudeDelta: 0.09
 };
 
-const SLIDE_DATA = [
-    { key: '1', text: 'Welcome to JobApp.', color: '#03A9F4'},
-    { key: '2', text: 'Use this to get a job.', color: '#009688'},
-    { key: '3', text: 'Set your location, then swipe away.', color: '#03A9F4'}
-];
-
-
 class MapScreen extends Component {
+    static navigationOptions = () => {
+        return {
+            title: 'Explore',
+            tabBarIcon: ({ tintColor }) => {
+                return (
+                    <Icon
+                        name='search'
+                        type='feather'
+                        size={NAVIGATION_ICON_SIZE}
+                        color={tintColor}
+                    />
+                )
+            }
+        }
+    };
+
     state = {
         region: INITIAL_REGION,
-        markers: [
-            {
-                latlng: {
-                    longitude: -73.953,
-                    latitude: 40.77
-                },
-                id: 'someId',
-                amount: 10
-            }
-        ]
     };
 
     onRegionChangeComplete = (region) => {
@@ -45,7 +49,8 @@ class MapScreen extends Component {
     };
 
     render() {
-        const { region, markers } = this.state;
+        const { region } = this.state;
+        const { hubsOnMap } = this.props;
 
         return (
             <View style={{ flex: 1 }}>
@@ -55,11 +60,11 @@ class MapScreen extends Component {
                     region={ region }
                     onRegionChangeComplete={this.onRegionChangeComplete}
                 >
-                    {markers.map(marker => {
-                        const { id, amount, latlng } = marker;
+                    {hubsOnMap.map(marker => {
+                        const { key, amount, latlng } = marker;
                         return (
                             <MapView.Marker
-                                key={id}
+                                key={key}
                                 coordinate={latlng}
                                 onPress={this.onMarkerPress}
                             >
@@ -68,16 +73,26 @@ class MapScreen extends Component {
                         )}
                     )}
                 </MapView>
-                <View style={{ height: 200, width: SCREEN_WIDTH, backgroundColor: 'white' }}>
-                    <Deck data={SLIDE_DATA}/>
 
+                <View style={styles.deckStyle}>
+                    <Deck data={hubsOnMap} />
                 </View>
+
             </View>
         )
     }
 }
 
 const styles = {
+    deckStyle: {
+        height: 200,
+        width: SCREEN_WIDTH,
+        backgroundColor: '#FFFFFF',
+    }
 };
 
-export default MapScreen;
+const mapStateToProps = ({ hubsOnMap }) => {
+    return { hubsOnMap };
+};
+
+export default connect(mapStateToProps, null)(MapScreen);

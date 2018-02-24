@@ -8,24 +8,40 @@ import {
 import HubCard from './HubCard';
 
 class Deck extends Component {
+    viewabilityConfig = { itemVisiblePercentThreshold: 50 };
 
-    renderSlide({ item }){
+    onViewableItemsChanged = ({ viewableItems, changed }) => {
+        console.log("Visible items are", viewableItems);
+        console.log("Changed in this iteration", changed);
+    };
+
+    renderSlide = ({ item }) => {
+        const { image, topic, tags, amount } = item;
+
         return (
             <View style={styles.slideStyle}>
-                <HubCard />
+                <HubCard
+                    topic={topic}
+                    tags={tags}
+                    amount={amount}
+                    image={image}
+                />
             </View>
         )
-    }
+    };
 
     render() {
         return (
-            <FlatList
-                horizontal
-                style={{ flex: 1 }}
-                pagingEnabled
-                renderItem={this.renderSlide}
-                data={this.props.data}
-            />
+            <View style={{ flex: 1, marginLeft: 10, marginTop: 5 }}>
+                <FlatList
+                    horizontal
+                    // pagingEnabled
+                    renderItem={this.renderSlide}
+                    data={this.props.data}
+                    onViewableItemsChanged={this.onViewableItemsChanged}
+                    viewabilityConfig={this.viewabilityConfig}
+                />
+            </View>
         )
     }
 }
