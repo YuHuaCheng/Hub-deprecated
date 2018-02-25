@@ -1,0 +1,1 @@
+export const FOCUSED_DECK_CARD_CHANGED = 'focused_deck_card_changed';

@@ -2,3 +2,5 @@ node_modules/**/*
 .expo/*
 npm-debug.*
 images/*
+build/*
+app.json

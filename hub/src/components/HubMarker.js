@@ -12,13 +12,14 @@ import { THEME_COLOR } from '../';
 class HubMarker extends React.Component {
     static defaultProps = {
         fontSize: 15,
+        markerColor: THEME_COLOR
     };
 
     render() {
-        const { fontSize, amount } = this.props;
+        const { fontSize, amount, markerColor } = this.props;
         return (
             <View style={styles.container}>
-                <View style={styles.bubble}>
+                <View style={[styles.bubble, { backgroundColor: markerColor }]}>
                     <Icon
                         name="user"
                         type="font-awesome"
@@ -28,7 +29,7 @@ class HubMarker extends React.Component {
                     <Text style={[styles.amount, { fontSize }]}>{amount}</Text>
                 </View>
                 <View style={styles.arrowBorder} />
-                <View style={styles.arrow} />
+                <View style={[styles.arrow, { borderTopColor: markerColor }]} />
             </View>
         );
     }
@@ -44,7 +45,6 @@ const styles = StyleSheet.create({
         flex: 0,
         flexDirection: 'row',
         alignSelf: 'flex-start',
-        backgroundColor: THEME_COLOR,
         padding: 2.5,
         paddingLeft: 3,
         paddingRight: 3,
@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         borderWidth: 4,
         borderColor: 'transparent',
-        borderTopColor: THEME_COLOR,
         alignSelf: 'center',
         marginTop: -9,
     },
@@ -66,7 +65,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         borderWidth: 4,
         borderColor: 'transparent',
-        borderTopColor: '#D23F44',
         alignSelf: 'center',
         marginTop: -0.5,
     },

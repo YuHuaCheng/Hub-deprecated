@@ -10,12 +10,12 @@ const getRandomInt = (max) => {
 const RANDOM_IMG_ROOT_URL = 'https://picsum.photos/300/200/';
 
 const randomImg = () => {
-    return `${RANDOM_IMG_ROOT_URL}?image=${getRandomInt(100)}`
+    return `${RANDOM_IMG_ROOT_URL}?image=${getRandomInt(50)}`
 };
 
 export const HUBS_ON_MAP_DATA = [
     {
-        key: '1',
+        id: '0',
         topic: 'Awesome food truck',
         tags: ['food'],
         amount: 5,
@@ -26,7 +26,7 @@ export const HUBS_ON_MAP_DATA = [
         },
     },
     {
-        key: '2',
+        id: '1',
         topic: 'WCS party tonight',
         tags: ['party', 'fun'],
         amount: 13 ,
@@ -37,7 +37,7 @@ export const HUBS_ON_MAP_DATA = [
         },
     },
     {
-        key: '3',
+        id: '2',
         topic: 'Apple store discussion',
         tags: ['tech', 'general'],
         amount: 24 ,
