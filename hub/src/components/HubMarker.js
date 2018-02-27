@@ -1,7 +1,5 @@
 import React from 'react';
-
 import {
-    StyleSheet,
     View,
     Text,
 } from 'react-native';
@@ -36,7 +34,7 @@ class HubMarker extends React.Component {
 }
 
 
-const styles = StyleSheet.create({
+const styles = {
     container: {
         flexDirection: 'column',
         alignSelf: 'flex-start',
@@ -68,6 +66,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: -0.5,
     },
-});
+};
 
 export default HubMarker;

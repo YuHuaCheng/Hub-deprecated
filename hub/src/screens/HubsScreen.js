@@ -1,11 +1,29 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
+
+import {
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    Button,
+    Platform
+} from 'react-native';
+
+import {
+    // Button,
+    Icon,
+    FormLabel,
+    FormInput
+} from 'react-native-elements';
 
 import { NAVIGATION_ICON_SIZE } from '../'
 
 class HubsScreen extends Component {
-    static navigationOptions = () => {
+    state = {
+        user: ''
+    };
+
+    static navigationOptions = ({ navigation }) => {
         return {
             title: 'Hubs',
             tabBarIcon: ({ tintColor }) => {
@@ -17,14 +35,27 @@ class HubsScreen extends Component {
                         color={tintColor}
                     />
                 )
+            },
+            headerStyle: {
+                marginTop: Platform.OS === 'android' ? 24 : 0
             }
         }
     };
 
     render(){
+        const { navigation } = this.props;
+
         return (
-            <View style={styles.containerStyle}>
-                <Text>HubsScreen</Text>
+            <View>
+                <FormLabel>User Name</FormLabel>
+                <FormInput
+                    value={this.state.user}
+                    onChangeText={user => this.setState({ user })}
+                />
+                <Button
+                    title='Next'
+                    onPress={() => { navigation.navigate('chat')}}
+                />
             </View>
         )
     }

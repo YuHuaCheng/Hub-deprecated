@@ -4,3 +4,4 @@ npm-debug.*
 images/*
 build/*
 app.json
+credentials/*
