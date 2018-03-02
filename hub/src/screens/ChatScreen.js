@@ -1,20 +1,31 @@
 import React, { Component } from 'react';
 import { View, Text, Platform } from 'react-native';
 import Chat from '../components/Chat';
-import { NAVIGATION_ICON_SIZE } from "../index";
+
+import { THEME_COLOR } from '../index';
 
 class ChatScreen extends Component {
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({ }) => {
         return {
-            title: 'Title of Chat room',
-            tabBarVisible: false
+            title: 'WCS Party Tonight',
+            tabBarVisible: false,
+            headerTintColor: '#080808',
+            headerStyle: {
+                backgroundColor: '#FFFFFF',
+                marginTop: Platform.OS === 'android' ? 24 : 0
+            },
+            headerTitleStyle: {
+                fontSize: 14,
+            },
         }
     };
 
     render(){
+        const { user } = this.props.navigation.state.params; // passed from HubScreen
         return (
             <View style={styles.containerStyle}>
                 <Chat
+                    user={user}
                     style={{ flex: 1 }}
                 />
             </View>
@@ -25,6 +36,7 @@ class ChatScreen extends Component {
 const styles = {
     containerStyle: {
         flex: 1,
+        backgroundColor: '#FFFFFF'
     }
 };
 

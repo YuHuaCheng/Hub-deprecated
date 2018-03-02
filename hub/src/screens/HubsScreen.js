@@ -17,13 +17,14 @@ import {
 } from 'react-native-elements';
 
 import { NAVIGATION_ICON_SIZE } from '../'
+import {THEME_COLOR} from "../index";
 
 class HubsScreen extends Component {
     state = {
         user: ''
     };
 
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({ }) => {
         return {
             title: 'Hubs',
             tabBarIcon: ({ tintColor }) => {
@@ -36,7 +37,9 @@ class HubsScreen extends Component {
                     />
                 )
             },
+            headerTintColor: '#080808',
             headerStyle: {
+                backgroundColor: '#FFFFFF',
                 marginTop: Platform.OS === 'android' ? 24 : 0
             }
         }
@@ -54,7 +57,7 @@ class HubsScreen extends Component {
                 />
                 <Button
                     title='Next'
-                    onPress={() => { navigation.navigate('chat')}}
+                    onPress={() => { navigation.navigate('chat', { user: this.state.user })}}
                 />
             </View>
         )

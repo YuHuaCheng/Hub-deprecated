@@ -1,46 +1,94 @@
 import React, { Component } from 'react';
-import {
-    View, TextInput
-} from 'react-native';
-import { FormLabel, FormInput, Button } from 'react-native-elements';
+import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { GiftedChat } from 'react-native-gifted-chat'
+import { GiftedChat, Bubble } from 'react-native-gifted-chat'
+import firebase from "firebase";
 
-import { messageFetch, messageSend } from '../actions/message_actions';
+import {
+    MESSAGE_ROOT_NODE,
+    messageFetch,
+    messageSend
+} from '../actions/message_actions';
+
+const ROOM_ID = 'roomTest';
 
 class Chat extends Component {
-    ROOM_ID = 'roomTest';
+    messageRef = null;
+
+    componentWillMount(){
+        this.messageRef = firebase.database().ref(`${MESSAGE_ROOT_NODE}${ROOM_ID}`);
+    }
 
     onSend = (messages = []) => {
         const { messageSend } = this.props;
-        messageSend(this.ROOM_ID, messages);
+        messageSend(ROOM_ID, messages);
     };
 
+    renderUsername(position, username) {
+        if(position === 'right'){ // don't show username if it's myself's message
+            return null
+        }
+        return <Text style={styles.messageUsernameStyle}>{username}</Text>
+    }
+
+    renderBubble(props) {
+        return (
+            <View>
+                {props.renderUsername(props.position, props.currentMessage.user.name)}
+                <Bubble
+                    {...props}
+                    wrapperStyle={{
+                        right: {
+                            padding: 1,
+                            backgroundColor: '#ff5e50'
+                        },
+                        left: {
+                            padding: 1
+                        }
+                    }}
+                />
+            </View>
+        )
+    }
+
     render() {
-        console.log('rendered');
-        const { messages } = this.props;
+        const { user, messages } = this.props;
         return (
             <GiftedChat
                 messages={messages}
                 onSend={this.onSend}
                 user={{
-                    _id: 1,
-                    name: 'Yu Hua'
+                    _id: user,
+                    name: user,
+                    avatar: 'https://api.adorable.io/avatars/285/abott'
                 }}
+                renderUsername={this.renderUsername}
+                renderBubble={this.renderBubble}
             />
         )
     }
 
     componentDidMount(){
-        console.log('did mount')
         const { messageFetch } = this.props;
-        messageFetch(this.ROOM_ID);
+        messageFetch(ROOM_ID, this.messageRef);
     }
 
     componentWillUnmount(){
-        console.log('unmount!')
+        // when navigating out the chat room, stop listening to new message from the server
+        this.messageRef.off();
     }
+
 }
+
+const styles = {
+    messageUsernameStyle: {
+        fontSize: 12,
+        color: '#b7b7b7',
+        marginLeft: 10,
+        marginBottom: 2,
+        marginTop: 2
+    }
+};
 
 const mapStateToProps = ({ message }) => {
     return { messages: message.messages };

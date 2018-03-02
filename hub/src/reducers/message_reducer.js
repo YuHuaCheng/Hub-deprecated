@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { FETCH_MESSAGE, SEND_MESSAGE } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -7,8 +8,10 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case FETCH_MESSAGE:
-            console.log('message reducer fetch');
-            return { ...state, messages: [ ...action.payload ] };
+            return {
+                ...state,
+                messages: _.uniqBy([ ...action.payload, ...state.messages], '_id')
+            };
         case SEND_MESSAGE:
             return state;
         default:
