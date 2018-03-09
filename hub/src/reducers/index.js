@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
 
-import hubsOnMap from './hubs_on_map_reducer';
+import map from './map_reducer';
+import message from './message_reducer';
 
 export default combineReducers({
-    hubsOnMap
+    map, message
 });

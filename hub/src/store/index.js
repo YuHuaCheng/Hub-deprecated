@@ -5,7 +5,5 @@ import reducers from '../reducers';
 export default store = createStore(
     reducers,
     {}, // default state
-    compose(
-        applyMiddleware(thunk),
-    )
+    applyMiddleware(thunk)
 );

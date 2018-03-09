@@ -7,8 +7,10 @@ import { connect } from 'react-redux';
 import HubMarker from '../components/HubMarker';
 import Deck from '../components/Deck';
 import {
-    NAVIGATION_ICON_SIZE
+    NAVIGATION_ICON_SIZE,
+    THEME_COLOR
 } from '../'
+import { deckFocusedChanged } from '../actions/deck_actions';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const INITIAL_REGION = {
@@ -43,14 +45,18 @@ class MapScreen extends Component {
         this.setState({ region });
     };
 
+    animateMapToCoordinate = (coordinate) => {
+        this.mapRef.animateToRegion(coordinate);
+    };
+
     onMarkerPress = ({ nativeEvent: { coordinate } }) => {
         // when on press, focus the map on the marker position
-        this.mapRef.animateToRegion(coordinate);
+        this.animateMapToCoordinate(coordinate);
     };
 
     render() {
         const { region } = this.state;
-        const { hubsOnMap } = this.props;
+        const { map: { hubsOnMap, focusedDeckItemIndex }, deckFocusedChanged } = this.props;
 
         return (
             <View style={{ flex: 1 }}>
@@ -60,22 +66,33 @@ class MapScreen extends Component {
                     region={ region }
                     onRegionChangeComplete={this.onRegionChangeComplete}
                 >
-                    {hubsOnMap.map(marker => {
-                        const { key, amount, latlng } = marker;
+                    {hubsOnMap.map((marker, index) => {
+                        const { id, amount, latlng } = marker;
+
                         return (
                             <MapView.Marker
-                                key={key}
+                                key={id}
                                 coordinate={latlng}
-                                onPress={this.onMarkerPress}
+                                onPress={(e) => {
+                                    this.onMarkerPress(e);
+                                    deckFocusedChanged(index);
+                                }}
                             >
-                                <HubMarker amount={amount}/>
+                                <HubMarker
+                                    amount={amount}
+                                    markerColor={ focusedDeckItemIndex === index ? THEME_COLOR : '#A1A1A1' }
+                                />
                             </MapView.Marker>
                         )}
                     )}
                 </MapView>
 
                 <View style={styles.deckStyle}>
-                    <Deck data={hubsOnMap} />
+                    <Deck
+                        data={hubsOnMap}
+                        focusedDeckItemIndex={focusedDeckItemIndex}
+                        mapRef={this.mapRef}
+                    />
                 </View>
 
             </View>
@@ -91,8 +108,8 @@ const styles = {
     }
 };
 
-const mapStateToProps = ({ hubsOnMap }) => {
-    return { hubsOnMap };
+const mapStateToProps = ({ map }) => {
+    return { map };
 };
 
-export default connect(mapStateToProps, null)(MapScreen);
+export default connect(mapStateToProps, { deckFocusedChanged })(MapScreen);

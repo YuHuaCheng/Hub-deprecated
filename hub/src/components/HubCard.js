@@ -3,10 +3,9 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 
 class HubCard extends Component {
     static defaultProps = {
-        image: require('../../images/shiba_dolphin.jpg'),
         topic: "This is a cool hub",
-        tags: "#food",
-        amount: 34,
+        tags: "#general",
+        isFocused: false
     };
 
     onCardPress = () => {
@@ -15,7 +14,7 @@ class HubCard extends Component {
     };
 
     render() {
-        const { image, topic, tags, amount } = this.props;
+        const { image, topic, tags, amount, isFocused } = this.props;
 
         return (
             <TouchableOpacity
@@ -24,6 +23,7 @@ class HubCard extends Component {
                 activeOpacity={1.0}
             >
                 <View style={styles.containerStyle}>
+                    <View style={isFocused ? styles.focusedStyle : styles.blurStyle} />
                     <Image
                         style={styles.imageStyle}
                         source={image}
@@ -39,6 +39,7 @@ class HubCard extends Component {
     }
 }
 
+const IMAGE_WIDTH = 190;
 const styles = {
     wrapperStyle: {
         justifyContent: 'center',
@@ -54,7 +55,7 @@ const styles = {
         padding: 0,
     },
     imageStyle: {
-        width: 190,
+        width: IMAGE_WIDTH,
         height: 120
     },
     topicStyle: {
@@ -69,6 +70,18 @@ const styles = {
     amountStyle: {
         fontSize: 14,
         color: '#FF5A5F'
+    },
+    focusedStyle: {
+        marginBottom: 2,
+        width: IMAGE_WIDTH,
+        borderTopColor: '#FF5A5F',
+        borderTopWidth: 4
+    },
+    blurStyle: {
+        marginBottom: 2,
+        width: IMAGE_WIDTH,
+        borderTopColor: '#FFFFFF',
+        borderTopWidth: 4
     }
 };
 
