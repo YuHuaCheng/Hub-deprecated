@@ -46,7 +46,6 @@ class MapScreen extends Component {
     };
 
     animateMapToCoordinate = (coordinate) => {
-        // console.log(coordinate);
         this.mapRef.animateToRegion(coordinate);
     };
 
@@ -81,7 +80,7 @@ class MapScreen extends Component {
                             >
                                 <HubMarker
                                     amount={amount}
-                                    markerColor={ focusedDeckItemIndex === index ? '#A1A1A1' : THEME_COLOR }
+                                    markerColor={ focusedDeckItemIndex === index ? THEME_COLOR : '#A1A1A1' }
                                 />
                             </MapView.Marker>
                         )}
@@ -92,27 +91,13 @@ class MapScreen extends Component {
                     <Deck
                         data={hubsOnMap}
                         focusedDeckItemIndex={focusedDeckItemIndex}
+                        mapRef={this.mapRef}
                     />
                 </View>
 
             </View>
         )
     }
-
-    // componentWillReceiveProps(nextProps){
-    //     const { hubsOnMap, focusedMapItem } = nextProps.map;
-    //     const { previousFocusedMapItem } = this.props.map;
-    //
-    //     console.log(focusedMapItem);
-    //
-    //     if(previousFocusedMapItem !== focusedMapItem ) {
-    //         hubsOnMap.map(({id, latlng}) => {
-    //             if (id === focusedMapItem) {
-    //                 this.animateMapToCoordinate(latlng);
-    //             }
-    //         })
-    //     }
-    // }
 }
 
 const styles = {

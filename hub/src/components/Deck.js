@@ -10,15 +10,26 @@ import HubCard from './HubCard';
 
 class Deck extends Component {
     static defaultProps = {
+        mapRef: null
     };
 
     viewabilityConfig = { itemVisiblePercentThreshold: 90 };
+    mapAnimateTimeout = null;
 
     onViewableItemsChanged = ({ viewableItems }) => {
         if (viewableItems) {
             // when the viewable item changes, we set the current focusedItem to be the first item that gets passed
             // from viewableItems, which represents the item that has the highest viewability
-            this.props.deckFocusedChanged(viewableItems[0].index);
+            const focusedItem = viewableItems[0];
+            this.props.deckFocusedChanged(focusedItem.index);
+
+            // when the viewable item on the deck changes, we animate the map to focus on the viewable item's latlng
+            // also to apply some delay function to make it look smoother when user swipes the deck too fast
+            clearTimeout(this.mapAnimateTimeout);
+            this.mapAnimateTimeout = setTimeout(
+                () => this.props.mapRef.animateToRegion(focusedItem.item.latlng),
+                400
+            );
         }
     };
 

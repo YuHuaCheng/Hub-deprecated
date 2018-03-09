@@ -6,7 +6,6 @@ import { HUBS_ON_MAP_DATA } from "../index";
 const INITIAL_STATE = {
     hubsOnMap: HUBS_ON_MAP_DATA,
     focusedDeckItemIndex: 0,
-    mapRef: ''
 };
 
 export default (state = INITIAL_STATE, action) => {
