@@ -22,13 +22,26 @@ class Deck extends Component {
             // from viewableItems, which represents the item that has the highest viewability
             const focusedItem = viewableItems[0];
             this.props.deckFocusedChanged(focusedItem.index);
+            this.animateMapToFocusedDeckItem(focusedItem);
+        }
+    };
 
-            // when the viewable item on the deck changes, we animate the map to focus on the viewable item's latlng
-            // also to apply some delay function to make it look smoother when user swipes the deck too fast
+    /**
+     * Deck component is coupled with MapScreen, and it takes the mapRef prop passed by MapScreen, to animate the map
+     * to the current deck focused item's coordinate
+     *
+     * @param {object} item - the property that's desugared from the element in viewableItems
+     */
+    animateMapToFocusedDeckItem = ({ item }) => {
+        const { mapRef } = this.props;
+
+        if (mapRef !== null) {
+            const delayTimeMilliSeconds = 450;
+            // apply some delay function to make it look smoother when user swipes the deck too fast
             clearTimeout(this.mapAnimateTimeout);
             this.mapAnimateTimeout = setTimeout(
-                () => this.props.mapRef.animateToRegion(focusedItem.item.latlng),
-                400
+                () => mapRef.animateToRegion(item.latlng),
+                delayTimeMilliSeconds
             );
         }
     };
