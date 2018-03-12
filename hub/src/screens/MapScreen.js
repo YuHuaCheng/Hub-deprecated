@@ -5,12 +5,14 @@ import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import HubMarker from '../components/HubMarker';
+import HubForm from '../components/HubForm';
 import Deck from '../components/Deck';
 import {
     NAVIGATION_ICON_SIZE,
     THEME_COLOR
 } from '../'
 import { deckFocusedChanged } from '../actions/deck_actions';
+import { showHubForm } from '../actions/hub_actions';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const INITIAL_REGION = {
@@ -54,9 +56,29 @@ class MapScreen extends Component {
         this.animateMapToCoordinate(coordinate);
     };
 
+    renderHubForm = () => {
+        const {
+            showHubForm,
+            map: { isHubFormVisible, pressedDeckItemIndex, hubsOnMap }
+        } = this.props;
+
+        return (
+            <HubForm
+                item={hubsOnMap[pressedDeckItemIndex]}
+                visible={isHubFormVisible}
+                onCancel={() => {
+                    showHubForm(false);
+                }}
+            />
+        )
+    };
+
     render() {
         const { region } = this.state;
-        const { map: { hubsOnMap, focusedDeckItemIndex }, deckFocusedChanged } = this.props;
+        const {
+            map: { hubsOnMap, focusedDeckItemIndex },
+            deckFocusedChanged
+        } = this.props;
 
         return (
             <View style={{ flex: 1 }}>
@@ -95,6 +117,8 @@ class MapScreen extends Component {
                     />
                 </View>
 
+                {this.renderHubForm()}
+
             </View>
         )
     }
@@ -112,4 +136,7 @@ const mapStateToProps = ({ map }) => {
     return { map };
 };
 
-export default connect(mapStateToProps, { deckFocusedChanged })(MapScreen);
+export default connect(mapStateToProps, {
+    deckFocusedChanged,
+    showHubForm
+})(MapScreen);

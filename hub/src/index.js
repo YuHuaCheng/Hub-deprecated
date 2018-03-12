@@ -17,6 +17,7 @@ export const HUBS_ON_MAP_DATA = [
     {
         id: '0',
         topic: 'Awesome food truck',
+        description: 'This is the discussion about the Japanese food truck that has a huge lineup these days.',
         tags: ['food'],
         amount: 5,
         image: {uri: randomImg()},
@@ -28,6 +29,7 @@ export const HUBS_ON_MAP_DATA = [
     {
         id: '1',
         topic: 'WCS party tonight',
+        description: 'Every Wednesday from 9pm to midnight at club 412! Ask me if you have any questions regarding the party',
         tags: ['party', 'fun'],
         amount: 13 ,
         image: {uri: randomImg()},
@@ -38,9 +40,10 @@ export const HUBS_ON_MAP_DATA = [
     },
     {
         id: '2',
-        topic: 'Apple store discussion',
+        topic: 'iphone 10 launch day',
+        description: 'discussion of the line up status for iphone 10',
         tags: ['tech', 'general'],
-        amount: 24 ,
+        amount: 200 ,
         image: {uri: randomImg()},
         latlng: {
             longitude: -73.950,

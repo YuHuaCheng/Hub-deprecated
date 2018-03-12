@@ -58,6 +58,7 @@ class Deck extends Component {
                     tags={tags}
                     amount={amount}
                     image={image}
+                    index={index}
                     isFocused={itemIsFocused}
                 />
             </View>

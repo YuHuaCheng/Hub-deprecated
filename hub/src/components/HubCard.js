@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import {
+    View,
+    Text,
+    Image,
+    TouchableOpacity
+} from 'react-native';
+import { connect } from 'react-redux';
+
+import { showHubForm, passPressedHubCardIndex } from '../actions/hub_actions';
 
 class HubCard extends Component {
     static defaultProps = {
         topic: "This is a cool hub",
         tags: "#general",
+        index: null,
         isFocused: false
     };
 
     onCardPress = () => {
-        const { topic } = this.props;
-        console.log(topic);
+        const { index, showHubForm, passPressedHubCardIndex } = this.props;
+        showHubForm(true);
+        passPressedHubCardIndex(index)
     };
 
     render() {
@@ -85,4 +95,5 @@ const styles = {
     }
 };
 
-export default HubCard;
+
+export default connect(null, { showHubForm, passPressedHubCardIndex })(HubCard);
